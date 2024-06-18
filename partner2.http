@@ -1,0 +1,61 @@
+### GET ALL EVENTS
+GET http://localhost:3001/eventos
+
+### Create Event
+POST http://localhost:3001/eventos
+Content-Type: application/json
+
+{
+  "nome": "Evento 1",
+  "descricao": "This is a new event",
+  "preco": 100,
+  "data": "2024-06-17T00:00:00"
+}
+> {%
+  client.global.set("eventoId", response.body.id);
+%}
+
+
+### GET EVENT BY ID
+GET http://localhost:3001/eventos/{{eventoId}}
+
+### Update Event
+PATCH http://localhost:3001/eventos/{{eventoId}}
+Content-Type: application/json
+
+{
+  "nome": "Evento 1 - Atualizado",
+  "descricao": "This is a updated event",
+  "preco": 100,
+  "data": "2024-06-17T00:00:00"
+}
+
+### Delete Event
+DELETE http://localhost:3001/eventos/{{eventoId}}
+
+
+### GET ALL SPOTS
+GET http://localhost:3001/eventos/{{eventoId}}/lugares
+
+### Create Spot
+POST http://localhost:3001/eventos/{{eventoId}}/lugares
+Content-Type: application/json
+
+{
+  "nome": "A4"
+}
+
+> {%
+  client.global.set("spotName", response.body.name)
+%}
+
+### RESERVE SPOT
+POST http://localhost:3001/eventos/{{eventoId}}/reserva
+Content-Type: application/json
+X-Api-Token: 456
+
+{
+  "lugares": ["{{ spotName }}"],
+  "tipo_ingresso": "inteira",
+  "email": "test@test.com.br"
+}
